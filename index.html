@@ -1,15 +1,4 @@
-
-<?php
-require_once('classes/class.housekeeping.php'); 
-
-$browser = '';
-if (isset($_SERVER['HTTP_USER_AGENT'])) {
-   $agent = $_SERVER['HTTP_USER_AGENT'];
-	if (strlen(strstr($agent, 'Firefox')) > 0) {
-	    $browser = 'firefox';
-	}
-}
-?><!DOCTYPE html>
+<!DOCTYPE html>
 <html class="no-js" lang="en-us">
   <head>
     <meta charset="utf-8"><!--[if IE]><meta http-equiv='X-UA-Compatible' content='IE=edge'><![endif]-->
@@ -38,21 +27,16 @@ if (isset($_SERVER['HTTP_USER_AGENT'])) {
       <section>
         <article class="textual">
           <div class="group">
-            <div class="ksbox half"><?php if ($browser == 'firefox') { ?>
-              <p>Terribly sorry, but this doesn't work very well on the Firefox browser. Please try using another browser.</p><?php } else { ?>
+            <div class="ksbox half">
               <form>
                 <div>
                   <label>Name
-                    <input id="name-input" type="text" maxlength="30" value="<?php echo htmlspecialchars(housekeeping::get('name')); ?>">
+                    <input id="name-input" type="text" maxlength="30">
                   </label>
                 </div>
                 <div>
-                  <label>
-                    <input id="plural" type="checkbox" <?php housekeeping::checkedIf(housekeeping::isGet('plural')); ?>>Plural names</label>
-                </div>
-                <div>
                   <label>Why you endorse Senator Markey (1 short paragraph)
-                    <textarea id="quotation" rows="6"><?php echo htmlspecialchars(housekeeping::get('quotation')); ?></textarea>
+                    <textarea id="quotation" rows="6"></textarea>
                   </label>
                 </div>
                 <div>
@@ -60,17 +44,16 @@ if (isset($_SERVER['HTTP_USER_AGENT'])) {
                     <input id="uploadAvatar" type="file" value="upload image" onchange="readURL(this);">
                   </label>
                 </div>
-                <div><?php if (housekeeping::isGet('test')) { ?><input type="hidden" id="test-input" value="1" name="test" /> <?php } ?>
+                <div>
                   <input id="generate" type="submit" value="Generate image">
                 </div>
-              </form><?php } ?>
+              </form>
             </div>
             <div class="ksbox half" id="canvasContainer">
               <canvas id="canvas" width="1600" height="1280" style="max-width:100%; display:none"></canvas><img id="canvasImg" src="img/example.png">
               <div id="saveContainer" style="display:none">
                 <p>
                   Image has been generated! Feel free to adjust it to your liking.
-                  
                 </p>
                 <p style="font-size:80%"><b>Known issues:</b> If the fonts aren't quite right, try re-generating your image. And certain photos may be rotated incorrectly depending on the orientation of your phone's camera. If you are on an <b>iPhone</b> <a href="https://www.businessinsider.com/where-do-downloads-go-on-iphone">read this</a> to access your image. For now, do not use <b>Firefox</b> browser.</p>
                 <p><a class="button" id="download" href="#">Download Image</a></p>
@@ -136,7 +119,6 @@ if (isset($_SERVER['HTTP_USER_AGENT'])) {
     
     	if (input.files && input.files[0]) {
     		var reader = new FileReader();
-    
     		reader.onload = function (e) {
     			$("#avatarImage").attr('src', e.target.result);
     		}

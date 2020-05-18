@@ -3,7 +3,6 @@
 var name;
 var quotation;
 var avatarImageSrc;
-var plural;
 
 var imgs=[];
 var imagesOK=0;
@@ -37,9 +36,9 @@ async function startGeneratingImage() {
 
 	imageURLs=[];  
 	imageURLs.push(avatarImageSrc ? avatarImageSrc : "/img/avatar.png");
-	imageURLs.push("/img/star.png");
-	imageURLs.push("/img/openquote.png");
-	imageURLs.push("/img/example.png");
+	imageURLs.push("img/star.png");
+	imageURLs.push("img/openquote.png");
+	imageURLs.push("img/example.png");
 
 
 	imagesOK=0;
@@ -189,7 +188,7 @@ function imagesAreNowLoaded(){
 	fontSize = 66 * w/1000;
 
 
-	var endorses = (plural ? "endorse" : "endorses") + " ";
+	var endorses = "endorses" + " "
 
 	ctx.font = "500 " + String(fontSize) + "px Playball,serif";
 
@@ -295,7 +294,7 @@ function imagesAreNowLoaded(){
 
 	ctx.font = "500 " + String(15 * h/1000) + "px Roboto, sans-serif";
 	ctx.fillStyle = 'RGBA(255,255,255,0.4';
-	ctx.fillText("Disclaimer Disclaimer blah blah blah ginger", w*0.051, h*0.98, w*0.9);
+	ctx.fillText("Disclaimer: This is not sponsored by the Markey Campaign", w*0.051, h*0.98, w*0.9);
 
 
 	var saveContainer = document.getElementById('saveContainer');
