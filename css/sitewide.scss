@@ -36,7 +36,7 @@ Colors
 	--color-paper-low:		hsl(0, 0%, 74%);
 	--color-ink-low:		hsl(0, 0%, 38%);
 	--color-ink-med:		hsl(0, 0%, 26%);
-	--color-ink-high:		hsl(0, 0%, 13%);
+	--color-ink-high:		#f33;
 	--color-ink-max:		black;
 
 
@@ -88,7 +88,7 @@ Typography
 */
 
 body {
-	font:20px/1.6 'Roboto', sans-serif;
+	font:20px/1.6 'Laca Text Regular', sans-serif;
 	font-weight:300;
 }
 
