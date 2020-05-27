@@ -247,10 +247,10 @@ function imagesAreNowLoaded(){
 	ctx.textAlign = "left";
 	ctx.fillStyle = "transparent";
 
-	var endquote = "”";
+	var endquote = "";
 	var left = w*.12;
 	var wid = w*.85;
-	var origY = h*0.7;			// further down if Nina
+	var origY = h*0.73;
 	var size;
 
 	for(size = 200 ; size > 15 ; size -= 1) {
@@ -263,7 +263,7 @@ function imagesAreNowLoaded(){
 
 		y = line.nextLine;
 
-		if (y < h * 0.90) {
+		if (y < h * 0.85) {
 			break;  // it fits, so really draw now.
 		}
 	}

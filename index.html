@@ -23,6 +23,7 @@
         <h1>I Endorse Ed Markey</h1>
         <p>Create your own endorsement graphic for Senator Ed Markey to share over Instagram, Twitter, Facebook, emails,
           and so forth!</p>
+        <p></p>
       </article>
     </section>
   </header>
@@ -42,7 +43,7 @@
                 </label>
               </div>
               <div>
-                <label>Why you endorse Senator Markey (1 short paragraph)
+                <label>Why you endorse Senator Ed Markey
                   <textarea id="quotation" rows="6"></textarea>
                 </label>
               </div>
@@ -80,9 +81,6 @@
       Copyright © 2020 <a href="https://twitter.com/danwood">Dan Wood</a>. This site is not affiliated with the Ed
       Markey 2020 campaign or any other campaign or candidate. For personal use only. Do not use to mislead people; use
       your own image only. No information collected in the use of this website will be shared with any party.
-
-
-
     </p>
   </footer>
 </body>
@@ -113,7 +111,7 @@
 
     avatarImageSrc = $("#avatarImage").attr('src');
 
-    if (name.length < 4 || quotation.length < 30) {
+    if (name.length < 4 || quotation.length < 3) {
       alert("Please fill in all of the blanks with enough information!");
     }
     else if (avatarImageSrc === undefined && $('#test-input').val() != 1) {
