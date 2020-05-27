@@ -121,6 +121,10 @@ body > footer p {
 	font-size:80%;
 }
 
+body > header p {
+	margin-top: 0;
+}
+
 article.textual {
 	margin:0 auto;
 	padding:0 0;		/* if we use margin above then it messes with background image */
