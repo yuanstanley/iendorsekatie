@@ -38,13 +38,13 @@
           <div class="ksbox half">
             <form>
               <div>
-                <label>Name
-                  <input id="name-input" type="text" maxlength="30">
+                <label>Name:
+                  <input id="name-input" type="text" minlength="4" maxlength="30" required>
                 </label>
               </div>
               <div>
-                <label>Why you endorse Senator Ed Markey
-                  <textarea id="quotation" rows="6"></textarea>
+                <label>Why you endorse Senator Ed Markey:
+                  <textarea id="quotation" rows="6" minlength="3" required></textarea>
                 </label>
               </div>
               <div>
@@ -53,7 +53,7 @@
                 </label>
               </div>
               <div>
-                <input id="generate" type="submit" value="Generate image">
+                <button id="generate" type="submit">Generate image</button>
               </div>
             </form>
           </div>
@@ -112,10 +112,10 @@
     avatarImageSrc = $("#avatarImage").attr('src');
 
     if (name.length < 4 || quotation.length < 3) {
-      alert("Please fill in all of the blanks with enough information!");
+      alert("Please fill in all of the blanks with enough information");
     }
     else if (avatarImageSrc === undefined && $('#test-input').val() != 1) {
-      alert("You need to upload your image!");
+      alert("Please upload your image");
     }
     else {
       startGeneratingImage();
