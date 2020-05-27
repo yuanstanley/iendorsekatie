@@ -45,25 +45,6 @@ Colors
 }
 
 
-
-@media (prefers-color-scheme: dark) {
-
-	:root {
-		--color-Link:			hsl(202, 65%, 63%);
-		--color-Link-hover:		hsl(202, 65%, 43%);
-		--color-Inverse:		hsl(20, 65%, 63%);
-		--color-Warning:		purple;
-		--color-paper-high:		hsl(0, 0%, 0%);
-		--color-paper-med:		hsl(0, 0%, 4%);
-		--color-paper-low:		hsl(0, 0%, 26%);
-		--color-ink-low:		hsl(0, 0%, 62%);
-		--color-ink-med:		hsl(0, 0%, 74%);
-		--color-ink-high:		hsl(0, 0%, 87%);
-
-		--color-dark-high:		hsl(0, 0%, 4%);
-   }
-}
-
 html { color:var(--color-ink-high); }
 
 a { color:var(--color-Link); }
