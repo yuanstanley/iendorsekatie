@@ -181,7 +181,7 @@ function imagesAreNowLoaded(){
 	ctx.fillText(name, textXCenter-textWidth/2, y, textWidth);
 
 
-	// ----------------------------------------------------- Endorses, for re-election, ED Markey
+	// ----------------------------------------------------- Endorses, for re-election, Katie Porter
 
 
 	y = h*0.39;

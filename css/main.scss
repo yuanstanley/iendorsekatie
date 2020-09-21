@@ -4,13 +4,13 @@
 @import 'laca-text/style.css';
 
 // Useful classes and layout that could be used on other sites
-@import 'generic.scss';
+@import 'generic';
 
 // General look and utility useful across the whole site
-@import 'sitewide.scss';
+@import 'sitewide';
 
 // For now, use the same CSS for all pages but we may want to separate later.
-@import 'homepage.scss';
+@import 'homepage';
 
 /* Debugging
 section:nth-child(even)	{background:cyan !important;}

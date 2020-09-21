@@ -27,25 +27,32 @@ Colors
 :root {
     color-scheme: light dark;
 
-	--color-Link:			hsl(202, 65%, 63%);
-	--color-Link-hover:		hsl(202, 65%, 43%);
-	--color-Inverse:		hsl(20, 65%, 63%);
-	--color-Warning:		purple;
-	--color-paper-high:		white;
-	--color-paper-med:		hsl(0, 0%, 96%);
-	--color-paper-low:		#005196;
-	--color-ink-low:		hsl(0, 0%, 38%);
-	--color-ink-med:		hsl(0, 0%, 26%);
-	--color-ink-high:		#f33;
-	--color-ink-max:		black;
+    // KP
+    --color-orange:         #FF830B;
+    --color-llblue:         #E3F9FF;
+    --color-lblue:          #63B4CB;
+    --color-mblue-fade:     #497198;
+    --color-dblue:          #164E7D;
+    --color-ddblue:         #082035;
+
+    --color-Link:		    #164E7D;
+    --color-Link-hover:		#082035;
+    --color-Inverse:		hsl(20, 65%, 63%);
+    --color-Warning:		purple;
+    --color-paper-high:		white;
+    --color-paper-med:		hsl(0, 0%, 96%);
+    --color-paper-low:		#005196;
+    --color-ink-low:		hsl(0, 0%, 38%);
+    --color-ink-med:		hsl(0, 0%, 26%);
+    --color-ink-high:		#f33;
+    --color-ink-max:		black;
 
 
-	--color-dark-high:		hsl(0, 0%, 13%);
-
+    --color-dark-high:		hsl(0, 0%, 13%);
 }
 
 
-html { color:var(--color-ink-high); }
+html { color:var(--color-dblue); }
 
 a { color:var(--color-Link); }
 
@@ -132,7 +139,7 @@ article.textual {
 }
 
 body > footer {
-	background:var(--color-paper-low);
+	background:var(--color-orange);
 	color:var(--color-paper-high);
 }
 
@@ -272,5 +279,3 @@ img.half {
 		padding:0;
 	}
 }
-
-
