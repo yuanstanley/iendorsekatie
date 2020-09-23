@@ -13,13 +13,21 @@ var candidatePath = '';
 // https://stackoverflow.com/questions/33596638/loading-multiple-png-images-in-html5-canvas#answer-33601666
 
 // put the paths to your images in imageURLs[]
-var imageURLs=[];  
+var imageURLs=[];
 
 const AVATAR = 0
-const STAR = 1
-const OPENQUOTE = 2
-const EXAMPLE = 3
+const SHORT_LOGO = 1
+const LONG_LOGO = 2
+const MARKERS = 3
+const GRADIENT = 4
+const EXAMPLE = 5
 
+
+// Colors
+const LIGHT_GRAY = "#b3b3b3"
+const DARK_BLUE = "#164e7d"
+const ORANGE = "#ff830b"
+const LIGHT_BLUE = "#63b5cc"
 
 // https://stackoverflow.com/a/53636623/25560
 const prepareFontLoad = (fontList) => Promise.all(fontList.map(font => document.fonts.load(font)));
@@ -28,18 +36,19 @@ const prepareFontLoad = (fontList) => Promise.all(fontList.map(font => document.
 
 async function startGeneratingImage() {
 
-	const fontList = ['900 60px Roboto', '300 60px Roboto', '500 60px playball' ]
+	const fontList = ['900 60px Raleway', '300 60px Raleway', '500 60px Raleway', '300 30px Caveat'];
 	await prepareFontLoad(fontList);
 
 	// the loaded images will be placed in imgs[]
 	imgs=[];
 
-	imageURLs=[];  
+	imageURLs=[];
 	imageURLs.push(avatarImageSrc ? avatarImageSrc : "/img/avatar.png");
-	imageURLs.push("img/star.png");
-	imageURLs.push("img/openquote.png");
+	imageURLs.push("img/KP-short-logo.png");
+	imageURLs.push("img/KP-long-logo.png");
+	imageURLs.push("img/marker.png");
+	imageURLs.push("img/gradient.png");
 	imageURLs.push("img/example.png");
-
 
 	imagesOK=0;
 	startLoadingAllImages(imagesAreNowLoaded);
@@ -58,9 +67,9 @@ function startLoadingAllImages(callback){
 		//     take on the next value in the loop.
 		imgs.push(img);
 		// when this image loads, call this img.onload
-		img.onload = function(){ 
+		img.onload = function(){
 			// this img loaded, increment the image counter
-			imagesOK++; 
+			imagesOK++;
 			// if we've loaded all images, call the callback
 			if (imagesOK>=imageURLs.length ) {
 				callback();
@@ -69,17 +78,16 @@ function startLoadingAllImages(callback){
 		// notify if there's an error
 		img.onerror=function(){
 			alert("image load failed: " + imageURLs[i]);
-		} 
+		}
 		// set img properties
 		img.src = imageURLs[i];
-	}      
+	}
 }
 
 // All the images are now loaded
 function imagesAreNowLoaded(){
 
 	// DRAW SOME TEXT
-
 	var canvas = document.getElementById('canvas');
 	var ctx = canvas.getContext('2d');
 
@@ -91,16 +99,18 @@ function imagesAreNowLoaded(){
 	var exampleImage = imgs[EXAMPLE];
 	ctx.drawImage(exampleImage, 0,0,w,h);
 
-	ctx.fillStyle = 'rgb(36, 87, 145)';
+	ctx.fillStyle = 'rgb(255, 255, 255)';
 	ctx.fillRect(0, 0, w, h);
-
-	ctx.fillStyle = 'white';
-	ctx.fillRect(w*.55, 0, w*.45, h*.56);
-
 
 	ctx.globalAlpha = 1.0;
 
+	// ----------------------------------------------------- Whiteboard
 
+	var strokeWidth = 50;
+	ctx.lineWidth = strokeWidth;
+	ctx.strokeStyle = LIGHT_GRAY;
+	var whiteboardWidth = 0.55 * w;
+	ctx.strokeRect(0.45 * w, 0, whiteboardWidth, h);
 
 	// ----------------------------------------------------- Avatar
 
@@ -115,7 +125,9 @@ function imagesAreNowLoaded(){
 	// Create a square
 	ctx.beginPath();
 
-	ctx.rect(centerX-radius, centerY-radius, radius*2, radius*2);
+	var avatarWidth = 0.45 * w;
+	var avatarHeight = 0.95 * h;
+	ctx.rect(0, 0, avatarWidth, avatarHeight);
 
 	// Clip to the current path
 	ctx.clip();
@@ -124,123 +136,91 @@ function imagesAreNowLoaded(){
 	var imageWidth = image.naturalWidth;
 	var imageHeight = image.naturalHeight;
 	var aspect = imageWidth / imageHeight;
+	var scaleRatio;
 
-
-	if (aspect > 1.0) {
-
-		ctx.drawImage(image, centerX-(radius*aspect), centerY-radius, radius*2*aspect,radius*2);
-
+	// if portrait
+	if (aspect < 1.0) {
+		var scaleRatio = avatarWidth / imageWidth;
 	}
+	// if landscape
 	else {
-
-		ctx.drawImage(image, centerX-radius, centerY-(radius/aspect), radius*2,(radius/aspect)*2);
-
+		var scaleRatio = avatarHeight / imageHeight;
 	}
-
+	// always crop from top left
+	ctx.drawImage(image, 0, 0, imageWidth * scaleRatio, imageHeight * scaleRatio);
 
 	// Undo the clipping
 	ctx.restore();
 
+	// ----------------------------------------------------- blue gradient
 
-	// ----------------------------------------------------- Stars
+	var gradientImage = imgs[GRADIENT];
 
-	image = imgs[STAR];
-	for (var i = 2; i >= 0; i--) {
-		ctx.drawImage(image, w*.10+i*w*.13, h*.055, w*.10, h*.10);
-	}
+	var gradientHeight = 0.2 * h;
+	var gradientWidth = avatarWidth;
 
-
+	ctx.drawImage(gradientImage, 0, h - gradientHeight, gradientWidth, gradientHeight);
 
 	// ----------------------------------------------------- Name
 
-	var fontSize = 50 * w/1000;
-	ctx.font = "900 " + String(fontSize) + "px Roboto,sans-serif";
+	var xOffset = 75
+
+	var fontSize = 55 * w/1000;
+	ctx.font = "800 " + String(fontSize) + "px Raleway";
 
 	var textWidth = ctx.measureText(name).width;
 	var textHeight = ctx.measureText(name).actualBoundingBoxDescent + ctx.measureText(name).actualBoundingBoxAscent;
 
-
-
 	// Make sure user's name fits
+	var nameWidth = whiteboardWidth - (xOffset * 2);
 
-	if (textWidth > w * 0.5 ) {
-		fontSize *= w*0.5/textWidth;
-		ctx.font = "900 " + String(fontSize) + "px Roboto,sans-serif";
+	if (textWidth > nameWidth) {
+		fontSize *= nameWidth / textWidth;
+		ctx.font = "800 " + String(fontSize) + "px Raleway";
 		textWidth = ctx.measureText(name).width;
 		textHeight = ctx.measureText(name).actualBoundingBoxDescent + ctx.measureText(name).actualBoundingBoxAscent;
 	}
 
+	var y = h * 0.18;
+	textXCenter =  avatarWidth + (whiteboardWidth / 2);
 
-	var y = h*0.27;
-	textXCenter = w*0.275;
-
-	ctx.fillStyle = 'white';
-	ctx.fillRect(0,y-textHeight-h*.02, w*.55, textHeight+h*.05);
-
-	ctx.fillStyle = 'rgb(236, 71, 61)';		// red
+	ctx.fillStyle = DARK_BLUE;
 	ctx.fillText(name, textXCenter-textWidth/2, y, textWidth);
 
-
-	// ----------------------------------------------------- Endorses, for re-election, Katie Porter
-
-
-	y = h*0.39;
-	fontSize = 66 * w/1000;
+	// ----------------------------------------------------- Endorses
 
 
-	var endorses = "endorses" + " "
+	y = h * 0.245;
+	fontSize = 40 * w/1000;
 
-	ctx.font = "500 " + String(fontSize) + "px Playball,serif";
+	var endorses = "endorses";
+
+	ctx.font = "400 " + String(fontSize) + "px Raleway";
 
 	textWidth = ctx.measureText(endorses).width;
-	ctx.fillStyle = 'white';
+	ctx.fillStyle = ORANGE;
 	ctx.fillText(endorses, textXCenter-textWidth/2, y, textWidth);
 
+	// ----------------------------------------------------- Katie Porter (logo)
 
-	y = h*0.56;
-	var reelection = 'for re-election';
+	var longLogoImg = imgs[LONG_LOGO];
 
-	textWidth = ctx.measureText(reelection).width;
-	ctx.fillText(reelection, textXCenter-textWidth/2, y, textWidth);
+	var scaleRatio = (whiteboardWidth - 2 * xOffset) / longLogoImg.naturalWidth;
+	ctx.drawImage(longLogoImg, avatarWidth + xOffset, h * 0.30,
+				  longLogoImg.naturalWidth * scaleRatio, longLogoImg.naturalHeight * scaleRatio);
 
+	// ----------------------------------------------------- markers
 
-	fontSize = 80 * w/1000;
-	ctx.font = "900 " + String(fontSize) + "px Roboto,sans-serif";
-	var edmarkey = 'ED MARKEY';
-	textWidth = ctx.measureText(edmarkey).width;
-	y = h*0.49;
-	ctx.fillText(edmarkey, textXCenter-textWidth/2, y, textWidth);
-
-
-	// ----------------------------------------------------- BOX
-
-	ctx.fillStyle = 'rgb(236, 71, 61)';		// red
-	x = w * 0.08;
-	ctx.fillRect(x, h*0.63, w-x, h*.26);
-
-	// ----------------------------------------------------- Quote Mark
-
-	image = imgs[OPENQUOTE];
-	imageWidth = image.naturalWidth;
-	imageHeight = image.naturalHeight;
-	aspect = imageWidth / imageHeight;
-
-	x = w*0.12;
-	y = h*0.65;
-	radius = w*0.05
-
-	ctx.globalAlpha = 0.5;
-	ctx.drawImage(image, x-radius, y-(radius/aspect), radius*2,(radius/aspect)*2);
-	ctx.globalAlpha = 1.0;
-
-
-
+	var markersImg = imgs[MARKERS];
+	var scaleRatio = (whiteboardWidth / 2) / markersImg.naturalWidth;
+	ctx.drawImage(markersImg, avatarWidth + (whiteboardWidth / 2) - (strokeWidth / 2), h - (markersImg.naturalHeight * scaleRatio) - (strokeWidth / 2),
+							  markersImg.naturalWidth * scaleRatio, markersImg.naturalHeight * scaleRatio);
 
 	// ----------------------------------------------------- Paragraph Text
 	var setting = {
-			maxSpaceSize : 6,
+			maxSpaceSize : 1,
 			minSpaceSize : 0.5,
-			lineSpacing : 1.07,
+			lineSpacing : 1.15,
 			compact : false
 	}
 
@@ -248,54 +228,55 @@ function imagesAreNowLoaded(){
 	ctx.fillStyle = "transparent";
 
 	var endquote = "";
-	var left = w*.12;
-	var wid = w*.85;
-	var origY = h*0.73;
+	var wid = whiteboardWidth - (xOffset * 3);
+	var left = avatarWidth + (strokeWidth / 2) + xOffset;
+	var origY = h * 0.52;
 	var size;
 
-	for(size = 200 ; size > 15 ; size -= 1) {
+	for (size = 200 ; size > 15 ; size -= 1) {
 
 		y = origY;
-		ctx.font = "300 " + String(size * h/1000) + "px Roboto, sans-serif";
+		ctx.font = "300 " + String(size * h/1000) + "px Caveat";
 
 		// Draw paragraph
-		var line = ctx.fillParaText(quotation+endquote, left, y, wid, setting);  // settings is remembered    
+		var line = ctx.fillParaText(quotation+endquote, left, y, wid, setting);  // settings is remembered
 
 		y = line.nextLine;
 
-		if (y < h * 0.85) {
+		if (y < h * 0.95) {
 			break;  // it fits, so really draw now.
 		}
 	}
 
-
-
-	ctx.fillStyle = "white";
+	ctx.fillStyle = "black";
 	y = origY;
-	ctx.font = "300 " + String(size * h/1000) + "px Roboto, sans-serif";
-	line = ctx.fillParaText(quotation+endquote, left, y, wid, setting);  // settings is remembered    
+	ctx.font = "100 " + String(size * h/1000) + "px Caveat";
+	line = ctx.fillParaText(quotation+endquote, left, y, wid, setting);  // settings is remembered
 
 
+	// ----------------------------------------------------- KP SHORT LOGO
 
+	var shortLogoImg = imgs[SHORT_LOGO];
+	var shortLogoHeight = 0.055 * h;
+
+	var scaleRatio = shortLogoHeight / shortLogoImg.naturalHeight;
+	ctx.drawImage(shortLogoImg, 50, h - shortLogoHeight - 40,
+							  shortLogoImg.naturalWidth * scaleRatio, shortLogoImg.naturalHeight * scaleRatio);
+
+	var shortLogoWidth = shortLogoImg.naturalWidth * scaleRatio;
 
 	// ----------------------------------------------------- BOTTOM STUFF
 
-	var GENERATED_TEXT = "Generated at IEndorseEd.com";
-	var GENERATED_HASHTAG = " #StickingWithEd"
+	var GENERATED_HASHTAG = "I am a #PorterSupporter";
+	var GENERATED_TEXT = "generated at KatiePorter.com/endorse"
 
-	ctx.font = "500 " + String(20 * h/1000) + "px Roboto, sans-serif";
+	ctx.font = "700 " + String(30 * h/1000) + "px Raleway";
+	ctx.fillStyle = LIGHT_BLUE;
+	ctx.fillText(GENERATED_HASHTAG, 75 + shortLogoWidth,  h - shortLogoHeight - 10, w*0.9);
+
 	ctx.fillStyle = 'white';
-	ctx.fillText(GENERATED_TEXT, w*0.051, h*0.96, w*0.9);
-
-	var thatWidth = ctx.measureText(GENERATED_TEXT + "  ").width;
-	ctx.fillStyle = 'RGBA(255,255,255,0.6';
-	ctx.font = "700 " + String(20 * h/1000) + "px Roboto, sans-serif";
-	ctx.fillText(GENERATED_HASHTAG, w*0.051 + thatWidth, h*0.96, w*0.9);
-
-	ctx.font = "500 " + String(15 * h/1000) + "px Roboto, sans-serif";
-	ctx.fillStyle = 'RGBA(255,255,255,0.4';
-	ctx.fillText("Disclaimer: This is not sponsored by the Markey Campaign", w*0.051, h*0.98, w*0.9);
-
+	ctx.font = "300 " + String(20 * h/1000) + "px Raleway";
+	ctx.fillText(GENERATED_TEXT, 75 + shortLogoWidth,  h - shortLogoHeight + 20, w*0.9);
 
 	var saveContainer = document.getElementById('saveContainer');
 	saveContainer.style.display = 'block';		// reveal all!
@@ -305,27 +286,4 @@ function imagesAreNowLoaded(){
 
 	var canvasImg = document.getElementById('canvasImg');
 	canvasImg.style.display = 'none';		// hide sample image
-
-
-
-
-	// Reference Image - overlay
-
-		// ctx.globalAlpha = 0.4;
-		// ctx.drawImage(imgs[REFERENCE], 0, 0, w, h);
-		// ctx.globalAlpha = 1.0;
-
-
-	// STORE INTO Local storage????
-	// https://hacks.mozilla.org/2012/02/saving-images-and-files-in-localstorage/
-
-	// How to save an image to localStorage and display it on the next page?
-	// https://stackoverflow.com/questions/19183180/how-to-save-an-image-to-localstorage-and-display-it-on-the-next-page
-
-
-
 }
-
-
-
-

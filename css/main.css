@@ -6,7 +6,7 @@
  * 1. Correct the line height in all browsers.
  * 2. Prevent adjustments of font size after orientation changes in iOS.
  */
-@import 'laca-text/style.css';
+@import 'fonts/style.css';
 html {
   line-height: 1.15;
   /* 1 */
@@ -791,8 +791,8 @@ Typography
 ----------------------------------------
 */
 body {
-  font: 20px/1.6 "Laca Text Regular", sans-serif;
-  font-weight: 300;
+  font: 20px/1.6 "Raleway", sans-serif;
+  font-weight: 500;
 }
 
 dt {
@@ -853,7 +853,7 @@ article.textual {
 }
 
 body > footer {
-  background: var(--color-orange);
+  background: var(--color-dblue);
   color: var(--color-paper-high);
 }
 
@@ -1000,7 +1000,7 @@ img.half {
 h1 {
   margin: 0;
   font-weight: 700;
-  font-size: 5em;
+  font-size: 4em;
 }
 
 h1.nina {
