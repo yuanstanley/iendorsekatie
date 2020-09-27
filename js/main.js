@@ -268,7 +268,7 @@ function imagesAreNowLoaded(){
 	// ----------------------------------------------------- BOTTOM STUFF
 
 	var GENERATED_HASHTAG = "I am a #PorterSupporter";
-	var GENERATED_TEXT = "generated at KatiePorter.com/endorse"
+	var GENERATED_TEXT = "generated at IEndorseKatie.com"
 
 	ctx.font = "700 " + String(30 * h/1000) + "px Raleway";
 	ctx.fillStyle = LIGHT_BLUE;
