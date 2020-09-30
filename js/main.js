@@ -36,7 +36,7 @@ const prepareFontLoad = (fontList) => Promise.all(fontList.map(font => document.
 
 async function startGeneratingImage() {
 
-	const fontList = ['900 60px Raleway', '300 60px Raleway', '500 60px Raleway', '300 30px Caveat'];
+	const fontList = ['800 60px Raleway', '400 60px Raleway', '700 60px Raleway', '300 30px Caveat', '100 30px Caveat'];
 	await prepareFontLoad(fontList);
 
 	// the loaded images will be placed in imgs[]
