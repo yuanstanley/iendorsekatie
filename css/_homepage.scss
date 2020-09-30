@@ -45,7 +45,6 @@ h1.nina {
 	}
 }
 
-
 #avatarImage {
 	max-width:50px;
 	float:right;
@@ -62,13 +61,11 @@ body > header {
 }
 
 @media only screen and (max-width:($mainBreakpoint - 1px)) {
-
 	.ksbox.half {
-		width:100%;
+		width:95%;
+    	padding:5% 2.5% 5% 2.5%;
 	}
-
 }
-
 
 .button {
 	padding:1em;
