@@ -138,11 +138,9 @@ function imagesAreNowLoaded(){
 	var aspect = imageWidth / imageHeight;
 	var scaleRatio;
 
-	// if portrait
-	if (aspect < 1.0) {
+	if (aspect < 0.67) {
 		var scaleRatio = avatarWidth / imageWidth;
 	}
-	// if landscape
 	else {
 		var scaleRatio = avatarHeight / imageHeight;
 	}
