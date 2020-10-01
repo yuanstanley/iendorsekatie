@@ -1051,7 +1051,8 @@ body > header {
 
 @media only screen and (max-width: 629px) {
   .ksbox.half {
-    width: 100%;
+    width: 95%;
+    padding: 5% 2.5% 5% 2.5%;
   }
 }
 .button {
